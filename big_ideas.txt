@@ -1,0 +1,77 @@
+The only wai:
+
+DEPRECATED:
+1. Only play() and stop() on server side using Player
+  - create playlist on client side
+  - send playlist to server and create there a new Player instance with provided playlist
+  - happy win :) (not rly)
+
+Possible solutions to automatic next track play error:
+1. angular internal emit/reciever for socket.on trigger to play the music
+2. or rewrite sockets logic - play with that man it odes not hurt so much!
+3. stop takes time, it cannot be changed too fast - needed delay between stop and play is the solution!
+(4. it could be done by getting duration each time play() executed, waiting the duration time,
+    then asking if server value changed, if yes, then start playing next song)
+
+GENIUS:
+Creating playlists by selecting tracks (in order of selections)!
+When selects album - whole album is being played.
+When selects artist - whole artist albums are being played.
+
+
+TO VALIDATE:
+User scenarios:
+
+1. User goes to app and clicks Play first:
+  - prompt comes up saying that he has to select one or more tracks to start playing
+
+2. User goes to app, selects one song then clicks Play:
+  - song starts playing
+  - current song status is updated
+  - play button turns to stop button
+  - when finished, next song from album is being played
+  - if it's the last song form the album, when finished music stops
+  2.1. While playing, user clicks prev():
+    - the song stops playing
+    - a song before is being played
+    - selection on list goes to new song //TODO
+    - if it's the first song of the album, the last songs is being played
+  2.2. While playing, user clicks next():
+    - the song stops playing
+    - a song after is being played
+    - selection on list goes to new song
+    - if it's the last song of the album, music replays
+  2.3. While playing, user clicks repeat():
+    - a song is being played repeatedly
+  2.4. While playing, user clicks shuffle():
+    - mixes current playlist in random order
+  2.5. While playing, user clicks stop():
+    - the song stops playing
+    2.5.1. User clicks play() again:
+      - last played song starts playing
+
+3. User goes to app, selects several songs as playlist, then clicks Play:
+  - playlist is being created in order of selections
+  - play button turns to stop button
+  - first song from playlist starts playing
+  - current song status is updated
+  - when song finished, next song from playlist is being played
+  - when last song finishes playing, playing replays
+  3.1. While playing, user clicks prev():
+    - the song stops playing
+    - a song before is being played
+    - selection on list goes to new song //TODO
+    - if it's the first song of the playlist, the last songs is being played
+  3.2. While playing, user clicks next():
+    - the song stops playing
+    - a song after is being played
+    - selection on list goes to new song
+    - if it's the last song of the playlist, playing replays
+  3.3. While playing, user clicks repeat():
+    - current song is being played repeatedly
+  3.4. While playing, user clicks shuffle():
+    - mixes current playlist in random order
+  3.5. While playing, user clicks stop():
+    - the song stops playing
+    3.5.1. User clicks play() again:
+      - last played song starts playing and continues as playlist

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimal-ui"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <title>Richie</title>
+
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:500,300,700,400"/>
+    <link rel="stylesheet" type="text/css" href="lib/dist/css/mobile-angular-ui-base.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
+    <script src="lib/dist/js/mobile-angular-ui.min.js"></script>
+    <script src="lib/dist/js/mobile-angular-ui.gestures.min.js"></script>
+  </head>
+
+  <body ng-app="RichieApp" ui-prevent-touchmove-defaults>
+    <!-- Header -->
+    <div class="navbar navbar-app navbar-absolute-top">
+      <div class="navbar-brand navbar-brand-center" yield-to="title">
+        <span>Richie</span>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="app-body" ng-class="{loading: loading}" ng-controller="MusicListController">
+      <div ng-show="loading" class="app-content-loading">
+        <i class="fa fa-spinner fa-spin loading-spinner"></i>
+      </div>
+      <div class="app-content">
+        <!-- <div class="app-search">
+          <input class="form-control scrollable-header" type="search" placeholder="Search for music..."/>
+        </div> -->
+
+        <div class="scrollable">
+          <div class="scrollable-content section">
+            <div class="panel panel-info" ng-repeat="artist in artists">
+              <a href="#" class="panel-heading" ng-click="toggleArtist(artist.name)">
+                <b>{{ artist.name }}</b>
+              </a>
+              <div class="list-group" ng-repeat="album in artist.albums">
+                <div class="panel panel-default">
+                  <a href="#" class="panel-heading" ng-click="toggleAlbum(album.name)">
+                    <b>{{ album.name }}</b>
+                    <span class="badge">{{ album.year }}</span>
+                  </a>
+                  <a href="#" class="list-group-item" ng-repeat="track in album.tracks" ng-click="toggleTrack(track.path)">
+                    {{ track.title }}
+                    <span class="badge">{{ track.duration }}</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="navbar navbar-app navbar-absolute-bottom" ng-controller="PlayerController">
+      <div id="current-track" class="panel-default">
+        <span>{{ currentTrack }}</span>
+      </div>
+      <div class="container">
+        <ul id="music-buttons">
+          <li>
+            <a href="#" id="shuffle" class="btn btn-default btn-sm" ng-click='shuffle()'>
+              <span style="font-size: 1.7em;" class="glyphicon glyphicon-random" aria-hidden="true"></span>
+            </a>
+          </li>
+          <li>
+            <a href="#" id="previous" class="btn btn-default btn-sm" ng-click='previous()'>
+              <span style="font-size: 2.7em;" class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            </a>
+          </li>
+          <li>
+            <a href="#" id="play" class="btn btn-default btn-lg" ng-click="playback()">
+              <span style="font-size: 3em;" class="glyphicon glyphicon-play" aria-hidden="true" toggle-play></span>
+            </a>
+          </li>
+          <li>
+            <a href="#" id="next" class="btn btn-default btn-sm" ng-click='next()'>
+              <span style="font-size: 2.7em;" class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            </a>
+          </li>
+          <li>
+            <a href="#" id="repeat" class="btn btn-default btn-sm" ng-click='repeat()'>
+              <span style="font-size: 1.7em;" class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+            </a>
+          </li>
+        </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modules -->
+    <script src="/app/app.js"></script>
+
+    <!-- Controllers -->
+    <script src="app/controllers/MusicListController.js"></script>
+    <script src="app/controllers/PlayerController.js"></script>
+
+    <!-- Services -->
+    <script src="app/services/Playlist.js"></script>
+    <script src="app/services/Player.js"></script>
+
+    <!-- Directives -->
+    <!-- <script src="app/directives/trackInfo.js"></script> -->
+    <script src="app/directives/togglePlay.js"></script>
+  </body>
+</html>
