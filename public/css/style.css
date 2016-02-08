@@ -1,62 +1,39 @@
-html {
-  /*margin: 0px;
-  padding: 0px;*/
-}
-
 .navbar {
   vertical-align: center;
 }
 
 .navbar-absolute-bottom {
-  height: 100px;
+  height: 94px;
 }
 
 /* for overriding app body not standard bottom size */
 .has-navbar-bottom .app-body {
-  padding-bottom: 102px;
+  padding-bottom: 97px;
 }
 
 .panel-heading > .badge {
     float: right;
 }
 
-.main {
-  /*padding: 40px 0;*/
-}
-
 .section {
   padding: 0 0;
 }
 
-#current-track {
+#current-song {
   text-align: center;
 }
 
-#music-buttons {
+#player-buttons {
   margin-top: 10px;
   padding: 0px;
   text-align: center;
   list-style-type: none;
 }
 
-#music-buttons li {
+#player-buttons li {
   display: inline-block;
 }
 
 .glyphicon {
   vertical-align: middle;
 }
-
-/*
-.button-play {
- background-color: #39D1B4 ;
- color: #fff;
- font-size: 18px;
-   border-radius: 50%;
-   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-   font-weight: 200;
-   height: 80px;
-   line-height: 80px;
-   text-align: center;
-   width: 80px;
-}*/

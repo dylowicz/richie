@@ -10,13 +10,14 @@
 
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:500,300,700,400"/>
-    <link rel="stylesheet" type="text/css" href="lib/dist/css/mobile-angular-ui-base.min.css" />
+    <link rel="stylesheet" type="text/css" href="lib/dist/css/mobile-angular-ui-base.min.css"/>
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
     <script src="lib/dist/js/mobile-angular-ui.min.js"></script>
     <script src="lib/dist/js/mobile-angular-ui.gestures.min.js"></script>
+    <script src="lib/ng-websocket.js"></script>
   </head>
 
   <body ng-app="RichieApp" ui-prevent-touchmove-defaults>
@@ -67,7 +68,7 @@
         <span>{{ currentSong }}</span>
       </div>
       <div class="container">
-        <ul id="music-buttons">
+        <ul id="player-buttons">
           <li>
             <a href="#" id="shuffle" class="btn btn-default btn-sm" ng-click='shuffle()'>
               <span style="font-size: 1.7em;" class="glyphicon glyphicon-random" aria-hidden="true"></span>
@@ -79,8 +80,8 @@
             </a>
           </li>
           <li>
-            <a href="#" id="play" class="btn btn-default btn-lg" ng-click="playback()">
-              <span style="font-size: 3em;" class="glyphicon glyphicon-play" aria-hidden="true" toggle-play></span>
+            <a href="#" id="playback" class="btn btn-default btn-lg" ng-click="playback()">
+              <span id="play-button" class="{{ buttonClass }}" style="font-size: 3em;" aria-hidden="true"></span>
             </a>
           </li>
           <li>
@@ -108,9 +109,6 @@
     <!-- Services -->
     <script src="app/services/Playlist.js"></script>
     <script src="app/services/Player.js"></script>
-
-    <!-- Directives -->
-    <script src="app/directives/togglePlay.js"></script>
 
     <!-- Filters -->
     <script src="app/filters/secondsToDateTime.js"></script>
