@@ -1,14 +1,14 @@
 app.directive('togglePlay', function() {
   return {
     link: function(scope, element, attrs) {
-      element.bind('click', function() {
+      element.on('mousedown', function() {
         var playIcon = "glyphicon glyphicon-play";
         var pauseIcon = "glyphicon glyphicon-pause";
-        if(element.attr("class") === playIcon) {
+        if (element.attr("class") === playIcon) {
           element.removeClass(playIcon);
           element.addClass(pauseIcon);
         }
-        else {
+        else if (element.attr("class") === pauseIcon) {
           element.removeClass(pauseIcon);
           element.addClass(playIcon);
         }

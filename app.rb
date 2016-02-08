@@ -1,13 +1,9 @@
 require 'sinatra/base'
+require 'ruby-mpd'
 require 'pry'
 require 'json'
-require_relative 'mpd_manager'
 
 module Richie
-  def load_music
-
-  end
-
   class App < Sinatra::Base
     configure do
       set :mpd, MPD.new
@@ -18,13 +14,29 @@ module Richie
       settings.mpd.connect if not settings.mpd.connected?
       settings.mpd.random = false if settings.mpd.random?
       settings.mpd.repeat = false if settings.mpd.repeat?
+      settings.mpd.clear
       settings.mpd.songs.each { |song| settings.mpd.add(song) }
-      File.read('public/index.html')
+      File.read("#{settings.public_folder}/index.html")
     end
 
     get '/list' do
       content_type :json
-      { :key1 => 'value1', :key2 => 'value2' }.to_json
+
+      current_song = settings.mpd.current_song.nil? ? "" : "#{settings.mpd.current_song.artist} - #{settings.mpd.current_song.title}"
+      music_list = { artists: [], currentSong: current_song}
+      for artist in settings.mpd.artists
+        artist_h = { name: artist, albums: [] }
+        for album in settings.mpd.albums(artist)
+          album_h = { name: album, songs: [] }
+          for song in settings.mpd.where(artist: artist, album: album)
+            album_h[:songs].push(song.to_h)
+          end
+          artist_h[:albums].push(album_h)
+        end
+        music_list[:artists].push(artist_h)
+      end
+
+      music_list.to_json
     end
 
     post '/add' do
@@ -32,13 +44,35 @@ module Richie
     end
 
     get '/clear_queue' do
-      # TODO
+      settings.mpd.clear
     end
 
-    post '/playback' do
-      p eval(request.body.string)[:track]
+    post '/play_song' do
+      song = eval(request.body.string)[:song]
+      settings.mpd.clear
+      settings.mpd.add(settings.mpd.where(file: song).first.file)
+      settings.mpd.play
+    end
+
+    post '/play_album' do
+      album = eval(request.body.string)[:album]
+      settings.mpd.clear
+      settings.mpd.where(album: album).each {|song| settings.mpd.add(song.file)}
+      settings.mpd.play
+    end
+
+    post '/play_artist' do
+      artist = eval(request.body.string)[:artist]
+      settings.mpd.clear
+      settings.mpd.where(artist: artist).each {|song| settings.mpd.add(song.file)}
+      settings.mpd.play
+    end
+
+    get '/playback' do
       settings.mpd.playing? ? settings.mpd.pause = true : settings.mpd.play
-      @params = "#{settings.mpd.current_song.artist} - #{settings.mpd.current_song.title}"
+
+      current_song = settings.mpd.current_song.nil? ? "" : "#{settings.mpd.current_song.artist} - #{settings.mpd.current_song.title}"
+      @params = current_song
     end
 
     get '/next' do
@@ -50,7 +84,8 @@ module Richie
         settings.mpd.next
       end
 
-      @params = "#{settings.mpd.current_song.artist} - #{settings.mpd.current_song.title}"
+      current_song = settings.mpd.current_song.nil? ? "" : "#{settings.mpd.current_song.artist} - #{settings.mpd.current_song.title}"
+      @params = current_song
     end
 
     get '/previous' do
@@ -62,7 +97,8 @@ module Richie
         settings.mpd.previous
       end
 
-      @params = "#{settings.mpd.current_song.artist} - #{settings.mpd.current_song.title}"
+      current_song = settings.mpd.current_song.nil? ? "" : "#{settings.mpd.current_song.artist} - #{settings.mpd.current_song.title}"
+      @params = current_song
     end
 
     get '/shuffle' do

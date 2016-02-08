@@ -1,12 +1,12 @@
 app.factory('playlist', function() {
-  var _tracks = [];
+  var _songs = [];
   var _history = [];
   var playlist = {};
-  var currentTrack = 0;
+  var currentSong = 0;
 
-  var getTrackId = function(track) {
-    for(var i = 0; i < _tracks.length; ++i) {
-      if (_tracks[i] === track) {
+  var getSongId = function(song) {
+    for(var i = 0; i < _songs.length; ++i) {
+      if (_songs[i] === song) {
         return i;
       }
     }
@@ -14,52 +14,52 @@ app.factory('playlist', function() {
   };
 
   playlist.get = function(index) {
-    return _tracks[index];
+    return _songs[index];
   };
 
   playlist.exists = function(index) {
-    return index >= 0 && index < _tracks.length;
+    return index >= 0 && index < _songs.length;
   };
 
-  playlist._add = function(track) {
-    if (getTrackId(track) === -1) {
-      _tracks.push(track);
+  playlist._add = function(song) {
+    if (getSongId(song) === -1) {
+      _songs.push(song);
       return true;
     }
     return false;
   };
 
-  playlist.add = function(track) {
-    var added = playlist._add(track);
-    if (added) console.log('Added track: ' + track);
+  playlist.add = function(song) {
+    var added = playlist._add(song);
+    if (added) console.log('Added song: ' + song);
   };
 
-  playlist.addAll = function(tracks) {
-    for (var track in tracks) {
-      playlist._add(tracks[track]);
+  playlist.addAll = function(songs) {
+    for (var song in songs) {
+      playlist._add(songs[song]);
     }
-    console.log('Added tracks: ' + _tracks);
+    console.log('Added songs: ' + _songs);
   };
 
-  playlist.remove = function(track) {
-    var id = getTrackId(track);
+  playlist.remove = function(song) {
+    var id = getSongId(song);
     if (id != -1) {
-      _tracks.splice(id, 1);
-      console.log('Removed track: ' + track);
+      _songs.splice(id, 1);
+      console.log('Removed song: ' + song);
     }
   };
 
   playlist.clear = function() {
-    _tracks = [];
+    _songs = [];
     console.log('Playlist cleared');
   };
 
   playlist.list = function() {
-    return _tracks;
+    return _songs;
   };
 
   playlist.shuffle = function() {
-    for (var j, x, i = _tracks.length; i; j = Math.floor(Math.random() * i), x = _tracks[--i], _tracks[i] = _tracks[j], _tracks[j] = x);
+    for (var j, x, i = _songs.length; i; j = Math.floor(Math.random() * i), x = _songs[--i], _songs[i] = _songs[j], _songs[j] = x);
   };
 
   playlist.repeat = function(index) {

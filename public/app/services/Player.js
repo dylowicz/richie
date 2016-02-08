@@ -1,15 +1,15 @@
 app.service('player', ['$http', 'playlist',
   function($http, playlist) {
     var self = this;
-    var currentTrack;
+    var currentSong;
     var retryTimes = 0;
 
-    self.playback = function(track) {
-      console.log('Player.play.playlist: ' + track);
-      $http.post('/playback', { track : "sample data.mp3" })
+    self.playback = function(song) {
+      console.log('Player.playback: ' + song);
+      $http.get('/playback')
         .then(function(response) {
-          console.log('Player.play response: ' + JSON.stringify(response));
-          currentTrack = response.data;
+          console.log('Player.playback response: ' + JSON.stringify(response));
+          currentSong = response.data;
         }, function(error) {
           if (retryTimes < 3) {
             playback();
@@ -17,7 +17,7 @@ app.service('player', ['$http', 'playlist',
           }
         });
       retryTimes = 0;
-      return currentTrack;
+      return currentSong;
     };
 
     self.next = function() {
@@ -25,7 +25,7 @@ app.service('player', ['$http', 'playlist',
       $http.get('/next')
         .then(function(response) {
           console.log('Player.next response: ' + JSON.stringify(response));
-          currentTrack = response.data;
+          currentSong = response.data;
         }, function(error) {
           if (retryTimes < 3) {
             next();
@@ -33,7 +33,7 @@ app.service('player', ['$http', 'playlist',
           }
         });
       retryTimes = 0;
-      return currentTrack;
+      return currentSong;
     };
 
     self.previous = function() {
@@ -41,7 +41,7 @@ app.service('player', ['$http', 'playlist',
       $http.get('/previous')
         .then(function(response) {
           console.log('Player.previous response: ' + JSON.stringify(response));
-          currentTrack = response.data;
+          currentSong = response.data;
         }, function(error) {
           if (retryTimes < 3) {
             previous();
@@ -49,7 +49,7 @@ app.service('player', ['$http', 'playlist',
           }
         });
       retryTimes = 0;
-      return currentTrack;
+      return currentSong;
     };
 
     self.shuffle = function() {

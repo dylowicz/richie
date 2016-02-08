@@ -13,6 +13,10 @@ Possible solutions to automatic next track play error:
 (4. it could be done by getting duration each time play() executed, waiting the duration time,
     then asking if server value changed, if yes, then start playing next song)
 
+TODO:
+1. update play button status via sockets listening on mpd.current_song
+2. update current_song label via sockets listening on mpd.current_song
+
 GENIUS:
 Creating playlists by selecting tracks (in order of selections)!
 When selects album - whole album is being played.
@@ -34,7 +38,7 @@ User scenarios:
   2.1. While playing, user clicks prev():
     - the song stops playing
     - a song before is being played
-    - selection on list goes to new song //TODO
+    - selection on list goes to new song
     - if it's the first song of the album, the last songs is being played
   2.2. While playing, user clicks next():
     - the song stops playing
@@ -60,7 +64,7 @@ User scenarios:
   3.1. While playing, user clicks prev():
     - the song stops playing
     - a song before is being played
-    - selection on list goes to new song //TODO
+    - selection on list goes to new song
     - if it's the first song of the playlist, the last songs is being played
   3.2. While playing, user clicks next():
     - the song stops playing

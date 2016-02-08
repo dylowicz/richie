@@ -33,25 +33,25 @@
         <i class="fa fa-spinner fa-spin loading-spinner"></i>
       </div>
       <div class="app-content">
-        <!-- <div class="app-search">
-          <input class="form-control scrollable-header" type="search" placeholder="Search for music..."/>
-        </div> -->
+        <div class="app-search">
+          <input class="form-control scrollable-header" type="search" placeholder="Search for music..." ng-model="query"/>
+        </div>
 
         <div class="scrollable">
           <div class="scrollable-content section">
-            <div class="panel panel-info" ng-repeat="artist in artists">
+            <div class="panel panel-info" ng-repeat="artist in artists | filter: query">
               <a href="#" class="panel-heading" ng-click="toggleArtist(artist.name)">
                 <b>{{ artist.name }}</b>
               </a>
-              <div class="list-group" ng-repeat="album in artist.albums">
+              <div class="list-group" ng-repeat="album in artist.albums | filter: query">
                 <div class="panel panel-default">
                   <a href="#" class="panel-heading" ng-click="toggleAlbum(album.name)">
                     <b>{{ album.name }}</b>
                     <span class="badge">{{ album.year }}</span>
                   </a>
-                  <a href="#" class="list-group-item" ng-repeat="track in album.tracks" ng-click="toggleTrack(track.path)">
-                    {{ track.title }}
-                    <span class="badge">{{ track.duration }}</span>
+                  <a href="#" class="list-group-item" ng-repeat="song in album.songs | filter: query" ng-click="toggleSong(song.file)">
+                    {{ song.title }}
+                    <span class="badge">{{ song.time[1] | secondsToDateTime | date: 'mm:ss' }}</span>
                   </a>
                 </div>
               </div>
@@ -63,8 +63,8 @@
 
     <!-- Footer -->
     <div class="navbar navbar-app navbar-absolute-bottom" ng-controller="PlayerController">
-      <div id="current-track" class="panel-default">
-        <span>{{ currentTrack }}</span>
+      <div id="current-song" class="panel-default">
+        <span>{{ currentSong }}</span>
       </div>
       <div class="container">
         <ul id="music-buttons">
@@ -110,7 +110,9 @@
     <script src="app/services/Player.js"></script>
 
     <!-- Directives -->
-    <!-- <script src="app/directives/trackInfo.js"></script> -->
     <script src="app/directives/togglePlay.js"></script>
+
+    <!-- Filters -->
+    <script src="app/filters/secondsToDateTime.js"></script>
   </body>
 </html>
