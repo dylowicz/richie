@@ -6,7 +6,7 @@ app.controller('PlayerController', ['$scope', '$http', '$websocket', 'player', f
   var pauseIcon = "glyphicon glyphicon-pause";
 
   $scope.currentSong = "No song is being played";
-  $scope.buttonClass = playIcon
+  $scope.buttonClass = playIcon;
 
   ws.$on('$message', function(data) {
     ws.$emit("");
