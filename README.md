@@ -17,4 +17,4 @@ Server side music player in Ruby with mobile web client in Angular.
 ### Running
 1. ```mpd```
 2. ```shotgun app.rb```
-3. http://localhost:4567 
+3. [http://localhost:4567](http://localhost:4567)
