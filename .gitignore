@@ -9,6 +9,8 @@
 /test/tmp/
 /test/version_tmp/
 /tmp/
+big_ideas.txt
+/.idea/
 
 ## Specific to RubyMotion:
 .dat*
