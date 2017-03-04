@@ -41,10 +41,6 @@ module Richie
         music_list.to_json
       end
 
-      post '/add' do
-        # TODO
-      end
-
       get '/clear_queue' do
         settings.mpd.clear
       end
